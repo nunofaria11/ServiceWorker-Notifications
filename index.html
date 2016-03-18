@@ -101,11 +101,10 @@
 
     }
 
-    function swNotify() {
-        var secod
+    function swNotify() {        
         var text = $('#message').val();
-        var seconds = $('#seconds').val();
-        if (seconds) seconds = parseInt(seconds);
+        var delay = $('#delay').val();
+        if (delay) delay = parseInt(delay) * 1000;
 
         if (_registration) {
             setTimeout(function() {
@@ -114,7 +113,7 @@
                     vibrate: [200, 100, 200, 100, 200, 100, 200],
                     tag: 'vibration-sample'
                 });
-            }, seconds || 0);
+            }, delay);
 
         }
     }
@@ -133,9 +132,10 @@
     <div id="support"></div>
     <input id="message" type="text" placeholder="Message..." />
     <input id="seconds" type="number" placeholder="Seconds to live..." />
+    <input id="delay" type="number" placeholder="Delay " />
     <button onclick="processDataAndTrigger(true)">request and show</button>
     <button onclick="processDataAndTrigger()">show</button>
-    <button onclick="swNotify()">show</button>
+    <button onclick="swNotify()">Delay SW</button>
 </body>
 
 </html>
