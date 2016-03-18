@@ -5,10 +5,10 @@
 </head>
 
 <body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
-<script type="text/javascript">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
     // Function to gather data and trigger notification
-    function processDataAndTrigger(forceRequestPermissions) {
+    function processDataAndTrigger(forceRequestPermissions, sw) {
         var text = $('#message').val();
         var seconds = $('#seconds').val();
         if (seconds) seconds = parseInt(seconds);
@@ -16,15 +16,15 @@
     }
 
     function showNotification(text, closeTimeoutSeconds, forceRequestPermissions) {
-//        // check if notifications are supported
-//        if (!("Notification" in window)) {
-//            alert('Not supported: Notification');
-//            return;
-//        }
-//        if (!("webkitNotifications" in navigator)) {
-//            alert('Not supported: webkitNotifications in navigator');
-//            return;
-//        }
+        //        // check if notifications are supported
+        //        if (!("Notification" in window)) {
+        //            alert('Not supported: Notification');
+        //            return;
+        //        }
+        //        if (!("webkitNotifications" in navigator)) {
+        //            alert('Not supported: webkitNotifications in navigator');
+        //            return;
+        //        }
 
         if (!("serviceWorker" in navigator)) {
             alert('Not supported: serviceWorker in navigator');
@@ -32,7 +32,7 @@
         }
 
         // notification logic
-        var _notification = function (permission) {
+        var _notification = function(permission) {
             if (permission !== 'granted') {
                 console.log('No notification permissions!');
                 return;
@@ -41,8 +41,8 @@
                 body: text
             });
             if (closeTimeoutSeconds && closeTimeoutSeconds > 0) {
-                notification.onshow = function () {
-                    setTimeout(function () {
+                notification.onshow = function() {
+                    setTimeout(function() {
                         this.close();
                     }.bind(this), closeTimeoutSeconds * 1000);
                 }
@@ -65,24 +65,24 @@
         }
 
         navigator.serviceWorker
-                .register(path)
-                .then(
-                        function () {
-                            console.log("Service Worker Registered");
-                        },
-                        function (err) {
-                            console.error("Service worker err:", err);
-                        });
+            .register(path)
+            .then(
+                function() {
+                    console.log("Service Worker Registered");
+                },
+                function(err) {
+                    console.error("Service worker err:", err);
+                });
 
 
-//        navigator.serviceWorker.ready.then(function (registration) {
-//            registration.showNotification('Notification with ServiceWorker');
-//            registration.showNotification('Vibration Sample', {
-//                body: 'Buzz! Buzz!',
-//                vibrate: [200, 100, 200, 100, 200, 100, 200],
-//                tag: 'vibration-sample'
-//            });
-//        });
+        //        navigator.serviceWorker.ready.then(function (registration) {
+        //            registration.showNotification('Notification with ServiceWorker');
+        //            registration.showNotification('Vibration Sample', {
+        //                body: 'Buzz! Buzz!',
+        //                vibrate: [200, 100, 200, 100, 200, 100, 200],
+        //                tag: 'vibration-sample'
+        //            });
+        //        });
 
         Notification.requestPermission(function(result) {
             if (result === 'granted') {
@@ -101,33 +101,41 @@
 
     }
 
-    function swNotify () {
-        if(_registration) {
-            _registration.showNotification('Vibration Sample', {
-                body: 'After Buzz',
-                vibrate: [200, 100, 200, 100, 200, 100, 200],
-                tag: 'vibration-sample'
-            });
+    function swNotify() {
+        var secod
+        var text = $('#message').val();
+        var seconds = $('#seconds').val();
+        if (seconds) seconds = parseInt(seconds);
+
+        if (_registration) {
+            setTimeout(function() {
+                _registration.showNotification('Vibration Sample', {
+                    body: 'After Buzz',
+                    vibrate: [200, 100, 200, 100, 200, 100, 200],
+                    tag: 'vibration-sample'
+                });
+            }, seconds || 0);
+
         }
     }
 
     // register sw
     registerServiceWorker(location.pathname + 'sw.js');
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         var notificationSupported = "Notification" in window;
         var webkitNotificationsSupported = "webkitNotifications" in navigator;
         var content =
-                "window.Notification is supported: " + notificationSupported + "<br>navigator.webkitNotifications is supported: " + webkitNotificationsSupported;
+            "window.Notification is supported: " + notificationSupported + "<br>navigator.webkitNotifications is supported: " + webkitNotificationsSupported;
         document.getElementById('support').innerHTML = content;
     });
-</script>
-<div id="support"></div>
-<input id="message" type="text" placeholder="Message..."/>
-<input id="seconds" type="number" placeholder="Seconds to live..."/>
-<button onclick="processDataAndTrigger(true)">request and show</button>
-<button onclick="processDataAndTrigger()">show</button>
-<button onclick="swNotify()">show</button>
+    </script>
+    <div id="support"></div>
+    <input id="message" type="text" placeholder="Message..." />
+    <input id="seconds" type="number" placeholder="Seconds to live..." />
+    <button onclick="processDataAndTrigger(true)">request and show</button>
+    <button onclick="processDataAndTrigger()">show</button>
+    <button onclick="swNotify()">show</button>
 </body>
 
 </html>
