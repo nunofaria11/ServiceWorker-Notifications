@@ -18,16 +18,11 @@ self.onnotificationclick = function(event) {
 
         for (var i = 0; i < clientList.length; i++) {
             var client = clientList[i];
-            url = client.url;
-            if(!client.focused)
+                       
             	client.focus();
+            	return;
         }
-        if (clients.openWindow) return clients.openWindow(url);
+        //if (clients.openWindow) return clients.openWindow(url);
     }));
 };
 
-/*
-self.registration.showNotification('SW Title', {
-    body: 'SW body'
-});
-*/
