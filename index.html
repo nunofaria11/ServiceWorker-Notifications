@@ -40,6 +40,7 @@
     function swNotify() {
         var text = $('#message').val() || '(no message)';
         var title = $('#title').val() || '(no title)';
+        var icon = $('#icon').val() || undefined;
         var delay = $('#delay').val();
         if (delay) delay = parseInt(delay) * 1000;
         var ttl = $('#seconds').val();
@@ -55,6 +56,7 @@
                 navigator.serviceWorker.ready.then(function(registration) {
                     registration.showNotification(title, {
                         body: text,
+                        icon: icon,
                         vibrate: [200, 100, 200, 100, 200, 100, 200],
                         tag: 'vibration-sample',
                         timeout: timeout,
@@ -84,6 +86,8 @@
             "window.Notification is supported: " + notificationSupported + "<br>navigator.webkitNotifications is supported: " + webkitNotificationsSupported;
         document.getElementById('support').innerHTML = content;
 
+        $('#icon').val('http://www.clker.com/cliparts/n/C/y/X/u/K/search-icon-th.png');
+
         // register sw
         registerServiceWorker();
 
@@ -92,8 +96,12 @@
     <div id="support"></div>
     <input id="title" type="text" placeholder="Title..." />
     <input id="message" type="text" placeholder="Message..." />
+    <br>
+    <input id="icon" type="text" placeholder="Icon..." />
+    <br>
     <input id="seconds" type="number" placeholder="Seconds to live..." />
     <input id="delay" type="number" placeholder="Delay seconds..." />
+    <p>
     <button onclick="swNotify()">Delay SW</button>
 </body>
 
