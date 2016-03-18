@@ -42,14 +42,7 @@
         var title = $('#title').val() || '(no title)';
         var icon = $('#icon').val() || undefined;
         var delay = $('#delay').val();
-        if (delay) delay = parseInt(delay) * 1000;
-        var ttl = $('#seconds').val();
-        var timeout;
-        if (ttl) {
-            timeout = ttl * 1000;
-        }
-
-
+        if (delay) delay = parseInt(delay) * 1000;      
 
         if (_registration) {
             setTimeout(function() {
@@ -58,13 +51,9 @@
                         body: text,
                         icon: icon,
                         vibrate: [200, 100, 200, 100, 200, 100, 200],
-                        tag: 'vibration-sample',
-                        timeout: timeout,
+                        tag: 'vibration-sample',                        
                         data: {
-                            field1: 'First field',
-                            field2: 'Second field',
-                            closeOnClick: true,
-                            anArray: [1, 2, 3]
+                            pathname: location.pathname
                         }
                     })
                 });
@@ -98,8 +87,7 @@
     <input id="message" type="text" placeholder="Message..." />
     <br>
     <input id="icon" type="text" placeholder="Icon..." />
-    <br>
-    <input id="seconds" type="number" placeholder="Seconds to live..." />
+    <br>    
     <input id="delay" type="number" placeholder="Delay seconds..." />
     <p>
     <button onclick="swNotify()">Delay SW</button>

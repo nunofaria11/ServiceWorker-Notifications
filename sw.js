@@ -2,27 +2,26 @@
 console.log('inside service worker');
 
 self.onnotificationclick = function(event) {
-    console.log('On notification click: ', event.notification.tag);
-    console.log('data: ', event.notification.data);
-    if(event.notification.data.closeOnClick) {
-    	event.notification.close();
-    }
-
+	var data = event.notification.data;
+	var pathname = data.pathname || '/';
+	//console.log('data:', event.notification.data);
+    event.notification.close();   
     // This looks to see if the current is already open and
     // focuses if it is
     event.waitUntil(clients.matchAll({
         type: "window"
     }).then(function(clientList) {
 
-		var url = '/';
+        var url = pathname;
 
         for (var i = 0; i < clientList.length; i++) {
             var client = clientList[i];
-                       
-            	client.focus();
-            	return;
+            if (('focus' in client)) {
+                client.focus();
+                return;
+            }
+
         }
-        //if (clients.openWindow) return clients.openWindow(url);
+        if (clients.openWindow) return clients.openWindow(url);
     }));
 };
-
