@@ -29,7 +29,7 @@
         Notification.requestPermission(function(result) {
             if (result === 'granted') {
                 navigator.serviceWorker.ready.then(function(registration) {
-                    _registration = registration;
+
                 });
             }
 
@@ -42,24 +42,24 @@
         var title = $('#title').val() || '(no title)';
         var icon = $('#icon').val() || undefined;
         var delay = $('#delay').val();
-        if (delay) delay = parseInt(delay) * 1000;      
+        if (delay) delay = parseInt(delay) * 1000;
 
-        if (_registration) {
-            setTimeout(function() {
-                navigator.serviceWorker.ready.then(function(registration) {
-                    registration.showNotification(title, {
-                        body: text,
-                        icon: icon,
-                        vibrate: [200, 100, 200, 100, 200, 100, 200],
-                        tag: 'vibration-sample',                        
-                        data: {
-                            pathname: location.pathname
-                        }
-                    })
-                });
-            }, delay || 0);
 
-        }
+        setTimeout(function() {
+            navigator.serviceWorker.ready.then(function(registration) {
+                registration.showNotification(title, {
+                    body: text,
+                    icon: icon,
+                    vibrate: [200, 100, 200, 100, 200, 100, 200],
+                    tag: 'vibration-sample',
+                    data: {
+                        pathname: location.pathname
+                    }
+                })
+            });
+        }, delay || 0);
+
+
     }
 
     function onNotifyClick() {
@@ -87,10 +87,10 @@
     <input id="message" type="text" placeholder="Message..." />
     <br>
     <input id="icon" type="text" placeholder="Icon..." />
-    <br>    
+    <br>
     <input id="delay" type="number" placeholder="Delay seconds..." />
     <p>
-    <button onclick="swNotify()">Delay SW</button>
+        <button onclick="swNotify()">Delay SW</button>
 </body>
 
 </html>

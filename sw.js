@@ -1,17 +1,19 @@
-// service worker 
-console.log('inside service worker');
+var _LOG_TAG = 'sw.js ---- ';
+
+console.log(_LOG_TAG + 'Handling ServiceWorker');
 
 self.onnotificationclick = function(event) {
     var data = event.notification.data;
     var pathname = data.pathname || '/';
-    //console.log('data:', event.notification.data);
+    
+    // Closing notification on click
     event.notification.close();
-    // This looks to see if the current is already open and
-    // focuses if it is
+
+    // This looks to see if the current is already open and focuses if it is
     event.waitUntil(clients.matchAll({
         type: "window"
     }).then(function(clientList) {
-        console.log('clientsList:', clientList)
+        console.log(_LOG_TAG + 'clientsList:', clientList)
         var url = pathname;
 
         for (var i = 0; i < clientList.length; i++) {
@@ -22,9 +24,10 @@ self.onnotificationclick = function(event) {
             }
 
         }
+        // If no clients have been focused so far, open new window
         if (clients.openWindow) {
-        	console.log('opening window ', url);
-        	return clients.openWindow(url);
+            console.log(_LOG_TAG + 'opening window ', url);
+            return clients.openWindow(url);
         }
     }));
 };
