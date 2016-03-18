@@ -111,11 +111,17 @@
                 _registration.showNotification('Vibration Sample', {
                     body: 'After Buzz',
                     vibrate: [200, 100, 200, 100, 200, 100, 200],
-                    tag: 'vibration-sample'
+                    tag: 'vibration-sample',                
+                }).then(function(){
+                    alert('notification promise resolved!');
                 });
             }, delay);
 
         }
+    }
+
+    function onNotifyClick(){
+        alert('notification clicked!');
     }
 
     // register sw
