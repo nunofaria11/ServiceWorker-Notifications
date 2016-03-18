@@ -10,13 +10,16 @@ self.onnotificationclick = function(event) {
     event.waitUntil(clients.matchAll({
         type: "window"
     }).then(function(clientList) {
+
+		var url = '/';
+
         for (var i = 0; i < clientList.length; i++) {
             var client = clientList[i];
-            if (client.url == '/' && 'focus' in client)
-                return client.focus();
+            url = client.url;
+            if(!client.focused)
+            	client.focus();
         }
-        if (clients.openWindow)
-            return clients.openWindow('/');
+        if (clients.openWindow) return clients.openWindow(url);
     }));
 };
 
