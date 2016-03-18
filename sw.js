@@ -3,7 +3,10 @@ console.log('inside service worker');
 
 self.onnotificationclick = function(event) {
     console.log('On notification click: ', event.notification.tag);
-    event.notification.close();
+    console.log('data: ', event.notification.data);
+    if(event.notification.data.closeOnClick) {
+    	event.notification.close();
+    }
 
     // This looks to see if the current is already open and
     // focuses if it is
