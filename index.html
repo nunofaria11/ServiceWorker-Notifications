@@ -112,7 +112,7 @@
     }
 
     // register sw
-    registerServiceWorker('/sw.js');
+    registerServiceWorker(location.pathname + '/sw.js');
 
     $(document).ready(function () {
         var notificationSupported = "Notification" in window;
