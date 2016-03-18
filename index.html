@@ -88,12 +88,12 @@
             if (result === 'granted') {
                 navigator.serviceWorker.ready.then(function(registration) {
                     _registration = registration;
-                    registration.showNotification('Notification with ServiceWorker');
-                    registration.showNotification('Vibration Sample', {
+                    //registration.showNotification('Notification with ServiceWorker');
+                    /*registration.showNotification('Vibration Sample', {
                         body: 'Buzz! Buzz!',
                         vibrate: [200, 100, 200, 100, 200, 100, 200],
                         tag: 'vibration-sample'
-                    });
+                    });*/
                 });
             }
 
