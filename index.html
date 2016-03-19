@@ -1,0 +1,84 @@
+<html>
+
+<head>
+    <title>Notifications test</title>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    function registerServiceWorker() {
+
+        var path = location.pathname + 'sw.js';
+
+        if (!('serviceWorker' in navigator)) {
+            alert('Not supported: serviceWorker');
+            return;
+        }
+
+        navigator.serviceWorker
+            .register(path)
+            .then(
+                function() {
+                    console.log("Service Worker Registered");
+                },
+                function(err) {
+                    console.error("Service worker err:", err);
+                });
+
+        Notification.requestPermission(function(result) {
+            if (result === 'granted') {
+                navigator.serviceWorker.ready.then(function(registration) {
+                    // do stuff
+                });
+            }
+
+        });
+
+    }
+
+    function swNotify() {
+        var text = $('#message').val() || '(no message)';
+        var title = $('#title').val() || '(no title)';
+        var icon = $('#icon').val() || undefined;
+        var delay = $('#delay').val();
+        if (delay) delay = parseInt(delay) * 1000;
+
+
+        setTimeout(function() {
+            navigator.serviceWorker.ready.then(function(registration) {
+                registration.showNotification(title, {
+                    body: text,
+                    icon: icon,
+                    vibrate: [200, 100, 200, 100, 200, 100, 200],
+                    tag: 'vibration-sample',
+                    data: {
+                        pathname: location.pathname
+                    }
+                })
+            });
+        }, delay || 0);
+    }
+
+    function onNotifyClick() {
+        alert('outter notification clicked!');
+    }
+
+    $(document).ready(function() {
+        $('#icon').val('http://www.clker.com/cliparts/n/C/y/X/u/K/search-icon-th.png');
+        // register sw
+        registerServiceWorker();
+    });
+    </script>
+    <div id="support"></div>
+    <input id="title" type="text" placeholder="Title..." />
+    <input id="message" type="text" placeholder="Message..." />
+    <br>
+    <input id="icon" type="text" placeholder="Icon..." />
+    <br>
+    <input id="delay" type="number" placeholder="Delay seconds..." />
+    <p>
+        <button onclick="swNotify()">Show notification</button>
+</body>
+
+</html>
