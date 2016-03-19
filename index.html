@@ -29,7 +29,7 @@
         Notification.requestPermission(function(result) {
             if (result === 'granted') {
                 navigator.serviceWorker.ready.then(function(registration) {
-
+                    // do stuff
                 });
             }
 
@@ -58,28 +58,16 @@
                 })
             });
         }, delay || 0);
-
-
     }
 
     function onNotifyClick() {
         alert('outter notification clicked!');
     }
 
-
-
     $(document).ready(function() {
-        var notificationSupported = "Notification" in window;
-        var webkitNotificationsSupported = "webkitNotifications" in navigator;
-        var content =
-            "window.Notification is supported: " + notificationSupported + "<br>navigator.webkitNotifications is supported: " + webkitNotificationsSupported;
-        document.getElementById('support').innerHTML = content;
-
         $('#icon').val('http://www.clker.com/cliparts/n/C/y/X/u/K/search-icon-th.png');
-
         // register sw
         registerServiceWorker();
-
     });
     </script>
     <div id="support"></div>
@@ -90,7 +78,7 @@
     <br>
     <input id="delay" type="number" placeholder="Delay seconds..." />
     <p>
-        <button onclick="swNotify()">Delay SW</button>
+        <button onclick="swNotify()">Show notification</button>
 </body>
 
 </html>
